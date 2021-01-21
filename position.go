@@ -74,7 +74,7 @@ func (p *Position) CostBasis() big.Decimal {
 // EvenPrice returns the even price (openPrice +- spread)
 func (p *Position) EvenPrice() big.Decimal {
 	if p.EntranceOrder() != nil {
-		if p.EntranceOrder().Spread != big.ZERO {
+		if p.EntranceOrder().Spread.GT(big.ZERO) {
 			var spread big.Decimal = big.ZERO
 			switch p.EntranceOrder().Side {
 			case OrderSide(techan.BUY):
