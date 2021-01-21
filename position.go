@@ -68,6 +68,13 @@ func (p *Position) CostBasis() big.Decimal {
 	return big.ZERO
 }
 
+// StopPrice returns the stop loss price
+func (p *Position) StopPrice() big.Decimal {
+	if p.EntranceOrder() != nil && p.Spread != nil {
+		return p.EntranceOrder().Amount.Mul(p.EntranceOrder().Price.Sub(p.Spread))
+	}
+}
+
 // ExitValue returns the value accrued by closing the position
 func (p *Position) ExitValue() big.Decimal {
 	if p.IsClosed() {

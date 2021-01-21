@@ -21,5 +21,6 @@ type Order struct {
 	Security      string
 	Price         big.Decimal
 	Amount        big.Decimal
+	Spread        big.Decimal
 	ExecutionTime time.Time
 }
