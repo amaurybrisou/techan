@@ -70,8 +70,8 @@ func (p *Position) CostBasis() big.Decimal {
 
 // StopPrice returns the stop loss price
 func (p *Position) StopPrice() big.Decimal {
-	if p.EntranceOrder() != nil && p.Spread != nil {
-		return p.EntranceOrder().Amount.Mul(p.EntranceOrder().Price.Sub(p.Spread))
+	if p.EntranceOrder() != nil && p.EntranceOrder().Spread != nil {
+		return p.EntranceOrder().Amount.Mul(p.EntranceOrder().Price.Sub(p.EntranceOrder().Spread))
 	}
 }
 
