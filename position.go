@@ -1,6 +1,9 @@
 package techan
 
-import "github.com/sdcoffey/big"
+import (
+	"github.com/sdcoffey/big"
+	"github.com/sdcoffey/techan"
+)
 
 // Position is a pair of two Order objects
 type Position struct {
@@ -68,11 +71,23 @@ func (p *Position) CostBasis() big.Decimal {
 	return big.ZERO
 }
 
-// StopPrice returns the stop loss price
-func (p *Position) StopPrice() big.Decimal {
-	if p.EntranceOrder() != nil && p.EntranceOrder().Spread != nil {
-		return p.EntranceOrder().Amount.Mul(p.EntranceOrder().Price.Sub(p.EntranceOrder().Spread))
+// EvenPrice returns the even price (openPrice +- spread)
+func (p *Position) EvenPrice() big.Decimal {
+	if p.EntranceOrder() != nil {
+		if p.EntranceOrder().Spread != big.ZERO {
+			var spread big.ZERO
+			switch p.EntranceOrder().Side {
+			case OrderSide(techan.BUY):
+				spread = -p.EntranceOrder().Spread
+			case OrderSide(techan.SELL):
+				spread = p.EntranceOrder().Spread
+			}
+			return p.EntranceOrder().Price.Add(spread)
+		}
+		return p.EntranceOrder().Price
 	}
+
+	return big.ZERO
 }
 
 // ExitValue returns the value accrued by closing the position
