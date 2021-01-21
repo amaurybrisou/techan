@@ -78,7 +78,7 @@ func (p *Position) EvenPrice() big.Decimal {
 			var spread big.Decimal = big.ZERO
 			switch p.EntranceOrder().Side {
 			case OrderSide(techan.BUY):
-				spread = -p.EntranceOrder().Spread
+				spread = p.EntranceOrder().Spread.Neg()
 			case OrderSide(techan.SELL):
 				spread = p.EntranceOrder().Spread
 			}
